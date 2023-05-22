@@ -1,0 +1,155 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  </head>
+  <body>
+    <div class="container">
+        <h1 class="enchant-heading">Enchantr</h1>
+        <label for="dropdown">Items: </label>
+        <select id="dropdown">
+          <option value="" id="option-selectmenu">Select an option:</option>
+          <option value="Helmet">Helmet</option>
+          <option value="Chestplate">Chestplate</option>
+          <option value="Leggings">Leggings</option>
+          <optgroup label="Boots">
+            <option value="Boots(Depth Strider)">Boots(Depth Strider)</option>
+            <option value="Boots(Frost Walker)">Boots(Frost Walker)</option>
+          </optgroup>
+          <option value="Sword">Sword</option>
+          <optgroup label="Pickaxe">
+            <option value="Pickaxe(Fortune)">Pickaxe(Fortune)</option>
+            <option value="Pickaxe(SilkTouch)">Pickaxe(SilkTouch)</option>
+          </optgroup>
+          <optgroup label="Axe">
+            <option value="Axe(Fortune)">Axe(Fortune)</option>
+            <option value="Axe(SilkTouch)">Axe(SilkTouch)</option>
+          </optgroup>
+          <optgroup label="Shovel">
+            <option value="Shovel(Fortune)">Shovel(Fortune)</option>
+            <option value="Shovel(Silktouch)">Shovel(SilkTouch)</option>
+          </optgroup>
+          <optgroup label="Hoe">
+            <option value="Hoe(Fortune)">Hoe(Fortune)</option>
+            <option value="Hoe(Silktouch)">Hoe(SilkTouch)</option>
+          </optgroup>
+          <optgroup label="Bow">
+            <option value="Bow(Infinity)">Bow(Infinity)</option>
+            <option value="Bow(Mending)">Bow(Mending)</option>
+          </optgroup>
+          <option value="Crossbow">Crossbow</option>
+          <option value="Fishing rod">Fishing rod</option>
+          <option value="Elytra">Elytra</option>
+          <option value="Shield">Shield</option>
+          <option value="Shears">Shears </option>
+          <option value="Trident">Trident</option>
+          <option value="Flint and Steal">Flint and Steal</option>
+        </select>
+    <div class="selected-container">
+      <h2 class="selected-items-heading">Selected Items </h2>
+      <ul id="selected-items"></ul>
+    </div>  
+      <div class="select-btn">
+    <script>
+      function handleSelection() {
+        const selectedOption = document.getElementById("dropdown").value;
+        const selectedItemsList = document.getElementById("selected-items");
+
+        if (selectedOption) {
+          console.log("Selected option: ", selectedOption);
+          const listItem = document.createElement("li");
+          listItem.textContent = selectedOption;
+          selectedItemsList.appendChild(listItem);
+        } else {
+          console.log("No item selected");
+        }
+      }
+
+      document.getElementById("dropdown").addEventListener("change", handleSelection);
+    </script>
+    </div>
+    </div>
+
+    
+
+  </body>
+
+</html>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+:root {
+  --primary-text: #c6c6c6;
+  --secondary-text: #202020;
+}
+
+body {
+  background: linear-gradient(to left bottom, rgb(55, 65, 81), rgb(17, 24, 39), rgb(0, 0, 0));
+  color: white;
+}
+
+h1, h2 {
+  color: #202020;
+}
+
+* {
+  font-family: "Inter", sans-serif;
+}
+
+.enchant-heading {
+  text-align: center;
+  color: var(--primary-text);
+  background: linear-gradient(
+        to right,
+        #d61c7d 20%,
+        #61327d 30%,
+        #0190cd 70%,
+        #764ada 80%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+    background-size: 500% auto;
+    animation: textShine 5s ease-in-out infinite alternate;
+}
+
+@keyframes textShine {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.selected-items-heading {
+  color: var(--primary-text);
+}
+
+#dropdown {
+  padding-left: 1.25rem; /* 20px */
+  padding-right: 1.25rem; /* 20px */
+  padding-top: 0.625rem; /* 10px */
+  padding-bottom: 0.625rem; /* 10px */  
+  background-color: #343e4e;
+  width: 20%;
+  color: white;
+  border-style: none;
+  border-radius: 0.25rem; /* 4px */
+}
+
+#option-select-menu {
+  padding-left: 1.25rem; /* 20px */
+  padding-right: 1.25rem; /* 20px */
+  padding-top: 0.625rem; /* 10px */
+  padding-bottom: 0.625rem; /* 10px */  
+}
+
+</style>
