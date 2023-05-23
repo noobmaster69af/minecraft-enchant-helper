@@ -9,44 +9,68 @@
         <label for="dropdown">Items: </label>
         <select id="dropdown">
           <option value="" id="option-selectmenu">Select an option:</option>
+
           <option value="Helmet">Helmet</option>
+
           <option value="Chestplate">Chestplate</option>
+
           <option value="Leggings">Leggings</option>
+
           <optgroup label="Boots">
             <option value="Boots(Depth Strider)">Boots(Depth Strider)</option>
             <option value="Boots(Frost Walker)">Boots(Frost Walker)</option>
           </optgroup>
-          <option value="Sword">Sword</option>
+
+          <option value="Elytra">Elytra</option>
+
+          <option value="Shield">Shield</option>
+
+          <optgroup label="Sword">
+            <option value="Sword(w/o Knockback)">Sword(w/o Knockback)</option>
+            <option value="Sword(w Knockback)">Sword(w Knockback)</option>
+          </optgroup>
+
           <optgroup label="Pickaxe">
             <option value="Pickaxe(Fortune)">Pickaxe(Fortune)</option>
             <option value="Pickaxe(SilkTouch)">Pickaxe(SilkTouch)</option>
           </optgroup>
+
           <optgroup label="Axe">
             <option value="Axe(Fortune)">Axe(Fortune)</option>
             <option value="Axe(SilkTouch)">Axe(SilkTouch)</option>
           </optgroup>
+
           <optgroup label="Shovel">
             <option value="Shovel(Fortune)">Shovel(Fortune)</option>
             <option value="Shovel(Silktouch)">Shovel(SilkTouch)</option>
           </optgroup>
+
           <optgroup label="Hoe">
             <option value="Hoe(Fortune)">Hoe(Fortune)</option>
             <option value="Hoe(Silktouch)">Hoe(SilkTouch)</option>
           </optgroup>
+
           <optgroup label="Bow">
             <option value="Bow(Infinity)">Bow(Infinity)</option>
             <option value="Bow(Mending)">Bow(Mending)</option>
           </optgroup>
-          <option value="Crossbow">Crossbow</option>
-          <option value="Fishing rod">Fishing rod</option>
-          <option value="Elytra">Elytra</option>
-          <option value="Shield">Shield</option>
-          <option value="Shears">Shears </option>
+
+          <optgroup label="Crossbow">
+            <option value="Crossbow(Multishot)">Crossbow(Multishot)</option>
+            <option value="Crossbow(Piercing)">Crossbow(Piercing)</option>
+          </optgroup>
+
           <optgroup label="Trident">
             <option value="Trident(Channeling)">Trident(Channeling)</option>
             <option value="Trident(Riptide)">Trident(Riptide)</option>
           </optgroup>
+
+          <option value="Fishing rod">Fishing rod</option>
+
+          <option value="Shears">Shears </option>
+
           <option value="Flint and Steal">Flint and Steal</option>
+
         </select>
     <div class="selected-container">
       <h2 class="selected-items-heading">Selected Items </h2>
@@ -54,41 +78,91 @@
     </div>  
       <div class="select-btn">
         <script>
+          const itemEnchantments = {
+            Helmet: ["Thorns 3","Respiration 3","Unbreaking 3","Protection 4","Mending","Aqua Affinity"],
+            Chestplate: ["Thorns 3","Unbreaking 3","Mending","Protection 4"],
+            Leggings: ["Thorns 3","Unbreaking 3","Mending","Protection 4","Swift Sneak 3"],
+            "Boots(Depth Strider)": ["Thorns 3","Depth strider 3","Unbreaking 3","Protection 4","Mending","Feather Falling 4"],
+            "Boots(Frost Walker)": ["Thorns 3","Frost Walker 3","Unbreaking 3","Protection 4","Mending","Feather Falling 4"],
+            Sword: ["Sweeping Edge 3","Looting 3","Unbreaking 3","Sharpness 5","Mending","Fire"],
+            "Pickaxe(Fortune)": ["Fortune 3","Unbreaking 3","Mending","Efficiency 5"],
+            "Pickaxe(SilkTouch)": ["Efficiency 5","Unbreaking 3","Mending","Silk Touch"],
+            "Axe(Fortune)": ["Fortune 3", "Efficiency 5", "Unbreaking 3","Sharpness 5","Mending"],
+            "Axe(SilkTouch)": ["Efficiency 5","Sharpness 5","Unbreaking 3","Silk Touch","Mending"],
+            "Shovel(Fortune)": ["Fortune 3","Unbreaking 3","Mending","Efficiency 5"],
+            "Shovel(SilkTouch)": ["Efficiency 5","Unbreaking 3","Mending","Silk Touch"],
+            "Hoe(Fortune)": ["Fortune 3","Unbreaking 3","Mending","Efficiency 5"],
+            "Hoe(SilkTouch)": ["Efficiency 5","Unbreaking 3","Mending","Silk Touch"],
+            "Bow(Infinity)": ["Power 5","Infinity","Unbreaking 3","Punch 2","Flame"],
+            "Bow(Mending)": ["Power 5","Punch 2","Flame","Unbreaking 3","Mending"],
+            "Crossbow(Multishot)": ["Quick Charge 3","Mending","Multishot","Unbreaking 3"],
+            "Crossbow(Piercing)": ["Piercing 4","Unbreaking 3","Mending","Quick Charge 3"],
+            "Fishing rod": ["Luck of the Sea 3", "Lure 3", "Unbreaking 3","Mending"],
+            Elytra: ["Unbreaking 3", "Mending"],
+            Shield: ["Unbreaking 3", "Mending"],
+            Shears: ["Efficiency 5", "Unbreaking", "Mending"],
+            "Trident(Channeling)": ["Impaling 5","Channeling","Unbreaking 3","Loyalty 3","Mending"],
+            "Trident(Riptide)": ["Impaling 5","Loyalty 3","Mending","Unbreaking 3"],
+            "Flint and Steal": ["Unbreaking","Mending"]
+          };
           function handleSelection() {
             const selectedOption = document.getElementById("dropdown").value;
             const selectedItemsList = document.getElementById("selected-items");
-    
+
             if (selectedOption) {
               console.log("Selected option: ", selectedOption);
-    
-              // Check if the item is already selected
+
               const existingItem = Array.from(selectedItemsList.children).find(
                 (item) => item.dataset.option === selectedOption
               );
-    
+
               if (existingItem) {
-                // If the item is already selected, increment the quantity
+                const enchantmentsContainer = existingItem.querySelector(".enchantments-container");
+                const enchantmentCheckboxes = enchantmentsContainer.querySelectorAll("input[type='checkbox']");
+
+                enchantmentCheckboxes.forEach((checkbox) => {
+                  checkbox.checked = false;
+                  checkbox.disabled = true;
+                });
+
                 const quantityInput = existingItem.querySelector("input");
                 const currentQuantity = parseInt(quantityInput.value) || 0;
                 quantityInput.value = currentQuantity + 1;
               } else {
-                // If the item is not selected, create a new list item
                 const listItem = document.createElement("li");
                 listItem.dataset.option = selectedOption;
-                listItem.textContent = selectedOption;
-                const quantityInput = document.createElement("input");
-                quantityInput.type = "number";
-                quantityInput.min = 0;
-                quantityInput.value = 1;
-                listItem.appendChild(quantityInput);
+
+                const enchantments = itemEnchantments[selectedOption];
+                const enchantmentsString = enchantments ? enchantments.join(", ") : "None";
+
+                listItem.innerHTML = `
+                  <span>${selectedOption}</span>
+                  <input type="number" min="0" value="1">
+                  <div class="enchantments-container">
+                    ${enchantments
+                      ? enchantments
+                          .map(
+                            (enchantment) => `
+                              <label>
+                                <input type="checkbox" name="${selectedOption}-enchantment" value="${enchantment}" checked>
+                                ${enchantment}
+                              </label>
+                            `
+                          )
+                          .join("")
+                      : ""}
+                  </div>
+                `;
+
                 selectedItemsList.appendChild(listItem);
               }
             } else {
               console.log("No item selected");
             }
           }
-    
+
           document.getElementById("dropdown").addEventListener("change", handleSelection);
+
         </script>
     </div>
     </div>
@@ -176,23 +250,13 @@ h1, h2 {
 }
 
 
-.selected-container {
-  display: flex;
-  align-items: center;
+.selected-container input[type="number"]{
+  width: 2.75rem;
+  margin-left: 7px;
+  border-style: none;
+  border-radius: 0.25rem; /* 4px */
 }
 
-.quantity-input {
-  margin-right: 10px;
-}
-
-.quantity-input label {
-  color: var(--primary-text);
-  margin-right: 5px;
-}
-
-.quantity-input input[type="number"] {
-  width: 40px;
-}
 
 
 
