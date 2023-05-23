@@ -42,7 +42,10 @@
           <option value="Elytra">Elytra</option>
           <option value="Shield">Shield</option>
           <option value="Shears">Shears </option>
-          <option value="Trident">Trident</option>
+          <optgroup label="Trident">
+            <option value="Trident(Channeling)">Trident(Channeling)</option>
+            <option value="Trident(Riptide)">Trident(Riptide)</option>
+          </optgroup>
           <option value="Flint and Steal">Flint and Steal</option>
         </select>
     <div class="selected-container">
@@ -50,23 +53,43 @@
       <ul id="selected-items"></ul>
     </div>  
       <div class="select-btn">
-    <script>
-      function handleSelection() {
-        const selectedOption = document.getElementById("dropdown").value;
-        const selectedItemsList = document.getElementById("selected-items");
-
-        if (selectedOption) {
-          console.log("Selected option: ", selectedOption);
-          const listItem = document.createElement("li");
-          listItem.textContent = selectedOption;
-          selectedItemsList.appendChild(listItem);
-        } else {
-          console.log("No item selected");
-        }
-      }
-
-      document.getElementById("dropdown").addEventListener("change", handleSelection);
-    </script>
+        <script>
+          function handleSelection() {
+            const selectedOption = document.getElementById("dropdown").value;
+            const selectedItemsList = document.getElementById("selected-items");
+    
+            if (selectedOption) {
+              console.log("Selected option: ", selectedOption);
+    
+              // Check if the item is already selected
+              const existingItem = Array.from(selectedItemsList.children).find(
+                (item) => item.dataset.option === selectedOption
+              );
+    
+              if (existingItem) {
+                // If the item is already selected, increment the quantity
+                const quantityInput = existingItem.querySelector("input");
+                const currentQuantity = parseInt(quantityInput.value) || 0;
+                quantityInput.value = currentQuantity + 1;
+              } else {
+                // If the item is not selected, create a new list item
+                const listItem = document.createElement("li");
+                listItem.dataset.option = selectedOption;
+                listItem.textContent = selectedOption;
+                const quantityInput = document.createElement("input");
+                quantityInput.type = "number";
+                quantityInput.min = 0;
+                quantityInput.value = 1;
+                listItem.appendChild(quantityInput);
+                selectedItemsList.appendChild(listItem);
+              }
+            } else {
+              console.log("No item selected");
+            }
+          }
+    
+          document.getElementById("dropdown").addEventListener("change", handleSelection);
+        </script>
     </div>
     </div>
 
@@ -151,5 +174,26 @@ h1, h2 {
   padding-top: 0.625rem; /* 10px */
   padding-bottom: 0.625rem; /* 10px */  
 }
+
+
+.selected-container {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-input {
+  margin-right: 10px;
+}
+
+.quantity-input label {
+  color: var(--primary-text);
+  margin-right: 5px;
+}
+
+.quantity-input input[type="number"] {
+  width: 40px;
+}
+
+
 
 </style>
