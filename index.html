@@ -126,13 +126,13 @@
             "Sword(w/o Knockback)": "assets/Sword.webp",
             "Sword(w Knockback)": "assets/Sword.webp",
             "Pickaxe(Fortune)": "assets/Pickaxe.webp",
-            "Pickaxe(Silk Touch)": "assets/Pickaxe.webp",
+            "Pickaxe(SilkTouch)": "assets/Pickaxe.webp",
             "Axe(Fortune)": "assets/Axe.webp",
             "Axe(Silk Touch)": "assets/Axe.webp",
             "Shovel(Fortune)": "assets/Shovel.webp",
-            "Shovel(Silk Touch)": "assets/Shovels.webp",
+            "Shovel(SilkTouch)": "assets/Shovels.webp",
             "Hoe(Fortune)": "assets/Hoe.webp",
-            "Hoe(Silk Touch)": "assets/Hoe.webp",
+            "Hoe(SilkTouch)": "assets/Hoe.webp",
             "Bow(Infinity)": "assets/Bow.webp",
             "Bow(Mending)": "assets/Bow.webp",
             "Crossbow(Multishot)": "assets/Crossbow.webp",
@@ -210,30 +210,31 @@
                 itemIcon.alt = selectedOption;
                 itemIcon.classList.add("item-icon");
 
-
                 listItem.innerHTML = `
-                  <div class="item-info">
-                    <img src="${itemIconPath}" alt="${selectedOption}" class="item-icon">
-                    <span>${selectedOption}</span>
-                  </div>
-                  <div class="enchantments-container">
-                    ${enchantments
-                      ? enchantments
-                          .map(
-                            (enchantment) => `
-                              <label>
-                                <input type="checkbox" name="${selectedOption}-enchantment" value="${enchantment}" checked>
-                                ${enchantment}
-                              </label>
-                            `
-                          )
-                          .join("")
-                      : ""}
-                  </div>
-                  <input type="number" min="0" value="1">
+                    <div class="item-info">
+                        <img src="${itemIconPath}" alt="${selectedOption}" class="item-icon">
+                        <span class="item-name">${selectedOption}</span>
+                        <span class="quantity">x<input type="number" min="0" value="1"></span>
+                    </div>
+                    <button class="remove-btn">Remove</button>
+                    <div class="enchantments-container">
+                        ${enchantments
+                            ? enchantments
+                                  .map(
+                                      (enchantment) => `
+                                          <label>
+                                              <input type="checkbox" name="${selectedOption}-enchantment" value="${enchantment}" checked>
+                                              ${enchantment}
+                                          </label>
+                                      `
+                                  )
+                                  .join("")
+                            : ""}
+                    </div>
                 `;
 
                 selectedItemsList.appendChild(listItem);
+
               }
             } else {
               console.log("No item selected");
@@ -342,6 +343,7 @@ h1, h2 {
   height: 24px;
   margin-right: 4px;
   margin-left: 4.5px;
+  margin-top: 3px;
 }
 
 .item-info {
@@ -377,5 +379,28 @@ input[type="checkbox"] {
   cursor: pointer;
   margin-left: 10px;
 }
+
+.item-name {
+    margin-right: 10px;
+}
+
+.quantity {
+   
+}
+
+.quantity input {
+    width: 50px;
+    padding: 5px;
+}
+
+.remove-btn {
+  background-color: transparent;
+  border: none;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
 
 </style>
