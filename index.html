@@ -21,6 +21,8 @@
             <option value="Boots(Frost Walker)">Boots(Frost Walker)</option>
           </optgroup>
 
+          <option value="Turtle Shell">Trutle Shell</option> 
+
           <option value="Elytra">Elytra</option>
 
           <option value="Shield">Shield</option>
@@ -69,7 +71,11 @@
 
           <option value="Shears">Shears </option>
 
-          <option value="Flint and Steal">Flint and Steal</option>
+          <option value="Flint and Steel">Flint and Steel</option>
+
+          <option value="Carrot on a Stick">Carrot on a Stick</option>
+
+          <option value="Warped Fungus on a Stick">Warped Fungus on a Stick</option>
 
         </select>
     <div class="selected-container">
@@ -80,11 +86,13 @@
         <script>
           const itemEnchantments = {
             Helmet: ["Thorns 3","Respiration 3","Unbreaking 3","Protection 4","Mending","Aqua Affinity"],
+            "Turtle Shell": ["Thorns 3","Respiration 3","Unbreaking 3","Protection 4","Mending","Aqua Affinity"],
             Chestplate: ["Thorns 3","Unbreaking 3","Mending","Protection 4"],
             Leggings: ["Thorns 3","Unbreaking 3","Mending","Protection 4","Swift Sneak 3"],
             "Boots(Depth Strider)": ["Thorns 3","Depth strider 3","Unbreaking 3","Protection 4","Mending","Feather Falling 4"],
             "Boots(Frost Walker)": ["Thorns 3","Frost Walker 3","Unbreaking 3","Protection 4","Mending","Feather Falling 4"],
-            Sword: ["Sweeping Edge 3","Looting 3","Unbreaking 3","Sharpness 5","Mending","Fire"],
+            "Sword(w/o Knockback)": ["Sweeping Edge 3","Looting 3","Unbreaking 3","Sharpness 5","Mending","Fire Aspect 2"],
+            "Sword(w Knockback)": ["Sweeping Edge 3","Looting 3","Unbreaking 3","Sharpness 5","Knockback 2","Fire Aspect 2","Mending"],
             "Pickaxe(Fortune)": ["Fortune 3","Unbreaking 3","Mending","Efficiency 5"],
             "Pickaxe(SilkTouch)": ["Efficiency 5","Unbreaking 3","Mending","Silk Touch"],
             "Axe(Fortune)": ["Fortune 3", "Efficiency 5", "Unbreaking 3","Sharpness 5","Mending"],
@@ -103,8 +111,51 @@
             Shears: ["Efficiency 5", "Unbreaking", "Mending"],
             "Trident(Channeling)": ["Impaling 5","Channeling","Unbreaking 3","Loyalty 3","Mending"],
             "Trident(Riptide)": ["Impaling 5","Loyalty 3","Mending","Unbreaking 3"],
-            "Flint and Steal": ["Unbreaking","Mending"]
+            "Flint and Steel": ["Unbreaking","Mending"],
+            "Carrot on a Stick":["Unbreaking 3","Mending"],
+            "Warped Fungus on a Stick":["Unbreaking 3","Mending"]
           };
+
+          const itemIcons = {
+            Helmet: "assets/Helmet.webp",
+            "Turtle Shell": "assets/Turtle Shell.webp",
+            Chestplate: "assets/Chestplate.webp",
+            Leggings: "assets/Leggings.webp",
+            "Boots(Depth Strider)": "assets/Boots.webp",
+            "Boots(Frost Walker)": "assets/Boots.webp",
+            "Sword(w/o Knockback)": "assets/Sword.webp",
+            "Sword(w Knockback)": "assets/Sword.webp",
+            "Pickaxe(Fortune)": "assets/Pickaxe.webp",
+            "Pickaxe(Silk Touch)": "assets/Pickaxe.webp",
+            "Axe(Fortune)": "assets/Axe.webp",
+            "Axe(Silk Touch)": "assets/Axe.webp",
+            "Shovel(Fortune)": "assets/Shovel.webp",
+            "Shovel(Silk Touch)": "assets/Shovels.webp",
+            "Hoe(Fortune)": "assets/Hoe.webp",
+            "Hoe(Silk Touch)": "assets/Hoe.webp",
+            "Bow(Infinity)": "assets/Bow.webp",
+            "Bow(Mending)": "assets/Bow.webp",
+            "Crossbow(Multishot)": "assets/Crossbow.webp",
+            "Crossbow(Piercing)": "assets/Crossbow.webp",
+            "Fishing rod": "assets/Fishing rod.webp",
+            Elytra: "assets/Elytra.webp",
+            Shield: "assets/Sheild.webp",
+            Shears: "assets/Shears.webp",
+            "Trident(Channeling)": "assets/Trident.webp",
+            "Trident(Riptide)": "assets/Trident.webp",
+            "Flint and Steel": "assets/Flint and Steel.png",
+            "Carrot on a Stick": "assets/Carrot on a Stick.webp",
+            "Warped Fungus on a Stick": "assets/Warped Fungus on a Stick.webp"
+
+          }
+
+          function removeItem(event) {
+            const listItem = event.target.closest("li");
+            if (listItem) {
+              listItem.remove();
+            }
+          }
+
           function handleSelection() {
             const selectedOption = document.getElementById("dropdown").value;
             const selectedItemsList = document.getElementById("selected-items");
@@ -117,8 +168,15 @@
               );
 
               if (existingItem) {
+
                 const enchantmentsContainer = existingItem.querySelector(".enchantments-container");
                 const enchantmentCheckboxes = enchantmentsContainer.querySelectorAll("input[type='checkbox']");
+
+                const itemImage = document.createElement("img");
+                itemImage.src = itemIcons[selectedOption];
+                itemImage.alt = selectedOption;
+                itemImage.className = "item-image";
+                listItem.insertBefore(itemImage, listItem.firstChild);
 
                 enchantmentCheckboxes.forEach((checkbox) => {
                   checkbox.checked = false;
@@ -128,16 +186,36 @@
                 const quantityInput = existingItem.querySelector("input");
                 const currentQuantity = parseInt(quantityInput.value) || 0;
                 quantityInput.value = currentQuantity + 1;
+
+                const listItem = existingItem;
+                const removeButton = document.createElement("span");
+                removeButton.innerHTML = "&#10060;"; // "X" symbol
+                removeButton.classList.add("remove-item-btn");
+                removeButton.addEventListener("click", removeItem);
+
+                const itemInfoContainer = listItem.querySelector(".item-info");
+                itemInfoContainer.appendChild(removeButton);
+
               } else {
+
                 const listItem = document.createElement("li");
                 listItem.dataset.option = selectedOption;
 
                 const enchantments = itemEnchantments[selectedOption];
                 const enchantmentsString = enchantments ? enchantments.join(", ") : "None";
 
+                const itemIconPath = itemIcons[selectedOption];
+                const itemIcon = document.createElement("img");
+                itemIcon.src = itemIconPath;
+                itemIcon.alt = selectedOption;
+                itemIcon.classList.add("item-icon");
+
+
                 listItem.innerHTML = `
-                  <span>${selectedOption}</span>
-                  <input type="number" min="0" value="1">
+                  <div class="item-info">
+                    <img src="${itemIconPath}" alt="${selectedOption}" class="item-icon">
+                    <span>${selectedOption}</span>
+                  </div>
                   <div class="enchantments-container">
                     ${enchantments
                       ? enchantments
@@ -152,6 +230,7 @@
                           .join("")
                       : ""}
                   </div>
+                  <input type="number" min="0" value="1">
                 `;
 
                 selectedItemsList.appendChild(listItem);
@@ -255,9 +334,48 @@ h1, h2 {
   margin-left: 7px;
   border-style: none;
   border-radius: 0.25rem; /* 4px */
+
 }
 
+.item-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 4px;
+  margin-left: 4.5px;
+}
 
+.item-info {
+  display: flex;
+  align-items: center;
+}
 
+.enchantments-container {
+  margin-left: 10px;
+}
+
+.enchantments-container label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="number"] {
+  width: 50px;
+  padding: 5px;
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+#selected-items {
+  list-style-type: none; /* Remove the bullet point */
+  padding: 0;
+  margin: 0;
+}
+
+.remove-item-btn {
+  cursor: pointer;
+  margin-left: 10px;
+}
 
 </style>
